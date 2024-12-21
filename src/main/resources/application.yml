@@ -1,0 +1,5 @@
+spring:
+  datasource:
+    url: jdbc:sqlserver://localhost:1434;encrypt=true;trustServerCertificate=true;databaseName=master
+    username: sa
+    password: <YourStrong@Passw0rd>
