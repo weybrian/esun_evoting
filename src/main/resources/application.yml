@@ -1,5 +1,12 @@
 spring:
   datasource:
-    url: jdbc:sqlserver://localhost:1434;encrypt=true;trustServerCertificate=true;databaseName=master
+    url: jdbc:sqlserver://localhost:1433;encrypt=true;trustServerCertificate=true;databaseName=master
     username: sa
     password: <YourStrong@Passw0rd>
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+
+  jpa:
+    database-platform: org.hibernate.dialect.SQLServer2012Dialect
+    hibernate:
+      ddl-auto: none  # 可以選擇 update, validate, create-drop
+    show-sql: true  # 顯示 SQL 語句
