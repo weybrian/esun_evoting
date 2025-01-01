@@ -23,4 +23,8 @@ public class ItemService {
     public List<Item> getAllItems() {
         return itemRepository.getAllItem();  // 執行存儲過程
     }
+
+	public void updateItem(Long id, Item item) {
+		itemRepository.updateItem(id, item.getName());
+	}
 }

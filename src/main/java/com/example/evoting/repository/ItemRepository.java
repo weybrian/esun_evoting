@@ -19,4 +19,7 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
     // 用於調用 spInsertItem 的存儲過程
     @Procedure(procedureName = "spInsertItem")
     void insertItem(@Param("NAME") String name);
+
+    @Procedure(procedureName = "spPutItem")
+    void updateItem(@Param("item_id") Long id, @Param("New_name") String name);
 }
