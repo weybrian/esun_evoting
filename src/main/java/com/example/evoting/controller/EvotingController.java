@@ -4,18 +4,24 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.evoting.common.entity.Item;
-import com.example.evoting.repository.ItemRepository;
+import com.example.evoting.service.ItemService;
 
 @RestController
 public class EvotingController {
 	@Autowired
-	ItemRepository itemRepository;
+	ItemService service;
 
 	@GetMapping("/items")
     public List<Item> getAllItems() {
-        return itemRepository.getAllItem();
+        return service.getAllItems();//要在瀏覽器顯示 json，可 return object 或 list
+    }
+
+	@PostMapping("/item")
+    public void insertItem() {
+		service.insertItem("鍵盤");
     }
 }
