@@ -22,4 +22,7 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
 
     @Procedure(procedureName = "spPutItem")
     void updateItem(@Param("item_id") Long id, @Param("New_name") String name);
+
+    @Procedure(procedureName = "spDeleteItem")
+	void deleteItem(@Param("item_id") Long id);
 }

@@ -27,4 +27,8 @@ public class ItemService {
 	public void updateItem(Long id, Item item) {
 		itemRepository.updateItem(id, item.getName());
 	}
+
+	public void deleteItem(Long id) {
+		itemRepository.deleteItem(id);
+	}
 }
