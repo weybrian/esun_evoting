@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>E-Voting</title>
+    <!-- 引入 Vue.js 和 Axios -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!-- sweetalert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    <div id="app">
+        <header>
+            <nav>
+                <ul>
+                    <li><a href="#" @click="view = 'frontend'">前台</a></li>
+                    <li><a href="#" @click="view = 'backend'">後台</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <!-- 前台內容 -->
+            <section v-if="view === 'frontend'">
+                <h1>前台</h1>
+                <p>{{ message }}</p>
+                <button @click="changeMessage">更改內容</button>
+            </section>
+
+            <!-- 後台內容 -->
+            <section v-if="view === 'backend'">
+                <h1>後台</h1>
+                <h2>顯示所有投票項目</h2>
+                <div v-for="item in items" :key="item.item_id">{{ item.name }}
+					<button @click="updateItem(item.item_id, item.name)">更新</button>
+					<button @click="deleteItem(item.item_id)">刪除</button>
+				</div>
+                
+                <input v-model="newService" placeholder="輸入項目名稱" />
+                <button @click="addService">新增</button>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 魏兆成 - 版權所有</p>
+        </footer>
+    </div>
+
+    <script>
+        const { createApp } = Vue;
+
+        createApp({
+            data() {
+                return {
+                    view: 'frontend', // 控制目前顯示的視圖 ('frontend' 或 'backend')
+                    message: '這是一個基本的 HTML 頁面範例，您可以在此修改內容。',
+                    items: [], // 投票項目列表，從後端獲取
+                    newService: '', // 新增服務的輸入框內容
+                    updateName: '' //更新項目的輸入框內容
+                };
+            },
+            methods: {
+                changeMessage() {
+                    this.message = '內容已被更改！';
+                },
+                async fetchServices() {
+                    try {
+                        const response = await axios.get('/items'); // 調用後端 API
+                        this.items = response.data; // 將返回的資料綁定到 services
+                    } catch (error) {
+                        console.error('無法獲取服務資料:', error);
+                    }
+                },
+                async addService() {
+                    if (this.newService.trim()) {
+                        try {
+                            // 調用後端 API 插入新服務
+                            const response = await axios.post('/item', { name: this.newService });
+                            this.newService = '';
+                            this.fetchServices();
+                        } catch (error) {
+                            console.error('新增服務失敗:', error);
+                        }
+                    }
+                },
+                async updateItem(id, origname) {
+                    try {
+						const { value: name } = await Swal.fire({
+						  title: "輸入修改成的項目名稱",
+						  input: "text",
+						  inputLabel: "",
+						  inputValue: origname,
+						  showCancelButton: true,
+						  inputValidator: (value) => {
+						    if (!value) {
+						      return "必須輸入項目名稱!";
+						    }
+						  }
+						});
+						
+                        // 調用後端 API 更新
+                        if (name) {
+                            const response = await axios.put('/item/' + id, { name: name });
+                            this.fetchServices();
+						}
+                    } catch (error) {
+                        console.error('刪除投票項目失敗:', error);
+                    }
+                },
+                async deleteItem(id) {
+                    try {
+                        // 調用後端 API 刪除
+                        const response = await axios.delete('/item/' + id);
+                        this.items = this.items.filter(item => item.item_id !== id); // 篩選掉刪除的項目
+                    } catch (error) {
+                        console.error('刪除投票項目失敗:', error);
+                    }
+                }
+            },
+            mounted() {
+                // 頁面加載時獲取服務列表
+                this.fetchServices();
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>

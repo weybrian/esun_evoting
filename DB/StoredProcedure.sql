@@ -45,7 +45,7 @@ EXEC dbo.spPutItem
 @New_name = N'青軸';
 
 --刪除
-alter PROCEDURE dbo.spDeleteItem
+create PROCEDURE dbo.spDeleteItem
        @item_id                  int  = NULL
 AS 
 BEGIN 

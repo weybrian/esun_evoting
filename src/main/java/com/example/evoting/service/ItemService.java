@@ -15,8 +15,8 @@ public class ItemService {
     private ItemRepository itemRepository;
 
     @Transactional
-    public void insertItem(String name) {
-        itemRepository.insertItem(name);  // 執行存儲過程
+    public void insertItem(Item item) {
+        itemRepository.insertItem(item.getName());  // 執行存儲過程
     }
 
     @Transactional(readOnly = true)
