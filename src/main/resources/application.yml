@@ -10,3 +10,10 @@ spring:
     hibernate:
       ddl-auto: none  # 可以選擇 update, validate, create-drop
     show-sql: true  # 顯示 SQL 語句
+
+  thymeleaf:
+    prefix: classpath:/templates/   # Thymeleaf 模板位置
+    suffix: .html                   # 模板的後綴名
+    mode: HTML                      # 模板的模式
+    encoding: UTF-8                  # 編碼
+    cache: false                    # 開發過程中設為 false，避免緩存問題
