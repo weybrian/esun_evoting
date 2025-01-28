@@ -39,8 +39,8 @@
 					<button @click="deleteItem(item.item_id)">刪除</button>
 				</div>
                 
-                <input v-model="newService" placeholder="輸入項目名稱" />
-                <button @click="addService">新增</button>
+                <input v-model="newItem" placeholder="輸入項目名稱" />
+                <button @click="addItem">新增</button>
             </section>
         </main>
 
@@ -58,7 +58,7 @@
                     view: 'frontend', // 控制目前顯示的視圖 ('frontend' 或 'backend')
                     message: '這是一個基本的 HTML 頁面範例，您可以在此修改內容。',
                     items: [], // 投票項目列表，從後端獲取
-                    newService: '', // 新增服務的輸入框內容
+                    newItem: '', // 新增服務的輸入框內容
                     updateName: '' //更新項目的輸入框內容
                 };
             },
@@ -66,21 +66,21 @@
                 changeMessage() {
                     this.message = '內容已被更改！';
                 },
-                async fetchServices() {
+                async fetchItems() {
                     try {
                         const response = await axios.get('/items'); // 調用後端 API
-                        this.items = response.data; // 將返回的資料綁定到 services
+                        this.items = response.data; // 將返回的資料綁定到 items
                     } catch (error) {
                         console.error('無法獲取服務資料:', error);
                     }
                 },
-                async addService() {
-                    if (this.newService.trim()) {
+                async addItem() {
+                    if (this.newItem.trim()) {
                         try {
                             // 調用後端 API 插入新服務
-                            const response = await axios.post('/item', { name: this.newService });
-                            this.newService = '';
-                            this.fetchServices();
+                            const response = await axios.post('/item', { name: this.newItem });
+                            this.newItem = '';
+                            this.fetchItems();
                         } catch (error) {
                             console.error('新增服務失敗:', error);
                         }
@@ -104,7 +104,7 @@
                         // 調用後端 API 更新
                         if (name) {
                             const response = await axios.put('/item/' + id, { name: name });
-                            this.fetchServices();
+                            this.fetchItems();
 						}
                     } catch (error) {
                         console.error('刪除投票項目失敗:', error);
@@ -122,7 +122,7 @@
             },
             mounted() {
                 // 頁面加載時獲取服務列表
-                this.fetchServices();
+                this.fetchItems();
             }
         }).mount('#app');
     </script>
