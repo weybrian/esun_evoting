@@ -25,4 +25,7 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
 
     @Procedure(procedureName = "spDeleteItem")
 	void deleteItem(@Param("item_id") Long id);
+
+	@Procedure(procedureName = "spGetVotes")
+	List<Object[]> getVotes();
 }

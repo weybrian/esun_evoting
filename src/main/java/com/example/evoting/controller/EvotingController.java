@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.evoting.common.entity.Item;
+import com.example.evoting.common.model.Vote;
 import com.example.evoting.service.ItemService;
 
 @Controller
@@ -48,4 +49,10 @@ public class EvotingController {
 	public void deleteItem(@PathVariable Long id) {
 		service.deleteItem(id);
 	}
+	
+	@GetMapping("/votes")
+    @ResponseBody
+    public List<Vote> getVotes() {
+        return service.getVotes();
+    }
 }

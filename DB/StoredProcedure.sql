@@ -1,3 +1,4 @@
+--後台
 --新增
 Create PROCEDURE dbo.spInsertItem
        @NAME                         NVARCHAR(10)      = NULL
@@ -56,3 +57,16 @@ END
 
 EXEC dbo.spDeleteItem 
 @item_id = 3;
+
+--前台
+--查詢票數
+alter PROCEDURE dbo.spGetVotes /*注意: 名稱不能是sp_開頭!("sp_"是預留給系統的))*/
+AS
+BEGIN
+ /*從這邊開始輸入要預存的SQL指令*/
+ SELECT i.name, count(r.person_name) num FROM dbo.Item i
+ left join dbo.record r on i.item_id = r.item_id
+ group by i.name; 
+END;
+
+EXEC dbo.spGetVotes
