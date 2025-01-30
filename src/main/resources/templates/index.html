@@ -27,8 +27,15 @@
             <section v-if="view === 'frontend'">
                 <h1>前台</h1>
                 <h2>顯示投票項目與票數</h2>
-                <div v-for="vote in votes" :key="vote.name">{{ vote.name }} {{ vote.num }}票
+                <div>投票人
+					<input v-model="votePerson" placeholder="輸入投票人姓名" />
 				</div>
+                <div v-for="vote in votes" :key="vote.name">
+                    <input type="checkbox" :value="vote.item_id" v-model="selectedVotes">
+                    {{ vote.name }} {{ vote.num }}票
+                </div>
+                
+                <button @click="submitVote">提交投票</button>
             </section>
 
             <!-- 後台內容 -->
@@ -61,7 +68,9 @@
                     items: [], // 投票項目列表，從後端獲取
                     votes: [], // 投票項目列表，從後端獲取
                     newItem: '', // 新增服務的輸入框內容
-                    updateName: '' //更新項目的輸入框內容
+                    updateName: '', //更新項目的輸入框內容
+                    votePerson: '',
+                    selectedVotes: [] // 存放選中的項目
                 };
             },
             methods: {
@@ -124,6 +133,12 @@
                     } catch (error) {
                         console.error('刪除投票項目失敗:', error);
                     }
+                },
+                submitVote() {
+                    const response = axios.post('/vote', { votePerson: this.votePerson, item_ids: this.selectedVotes});
+                    this.votePerson = '';
+                    this.selectedVotes = [];
+                    this.fetchItems();
                 }
             },
             mounted() {

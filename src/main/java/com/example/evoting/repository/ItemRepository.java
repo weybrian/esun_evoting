@@ -14,7 +14,7 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
 
     // 用於調用 spGetAllItem 的存儲過程
     @Procedure(procedureName = "spGetAllItem")
-    List<Item> getAllItem();
+    List<Item> findByAllItem();
 
     // 用於調用 spInsertItem 的存儲過程
     @Procedure(procedureName = "spInsertItem")
@@ -24,8 +24,8 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
     void updateItem(@Param("item_id") Long id, @Param("New_name") String name);
 
     @Procedure(procedureName = "spDeleteItem")
-	void deleteItem(@Param("item_id") Long id);
+	void deleteByItem(@Param("item_id") Long id);
 
 	@Procedure(procedureName = "spGetVotes")
-	List<Object[]> getVotes();
+	List<Object[]> findByVotes();
 }

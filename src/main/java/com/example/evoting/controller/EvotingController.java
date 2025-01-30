@@ -55,4 +55,15 @@ public class EvotingController {
     public List<Vote> getVotes() {
         return service.getVotes();
     }
+
+	static class VoteRequest {
+        public String votePerson;
+        public int[] item_ids;
+    }
+	
+	@PostMapping("/vote")
+    @ResponseBody
+    public void insertRecords(@RequestBody VoteRequest req) {
+		service.insertRecords(req.votePerson, req.item_ids);
+    }
 }
