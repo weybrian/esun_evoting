@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.example.evoting.common.XSSSanitizer;
 import com.example.evoting.common.entity.Item;
 import com.example.evoting.common.model.Vote;
 import com.example.evoting.service.ItemService;
@@ -64,6 +65,6 @@ public class EvotingController {
 	@PostMapping("/vote")
     @ResponseBody
     public void insertRecords(@RequestBody VoteRequest req) {
-		service.insertRecords(req.votePerson, req.item_ids);
+		service.insertRecords(XSSSanitizer.sanitize(req.votePerson), req.item_ids);
     }
 }

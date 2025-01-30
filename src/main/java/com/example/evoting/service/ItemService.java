@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.evoting.common.XSSSanitizer;
 import com.example.evoting.common.entity.Item;
 import com.example.evoting.common.model.Vote;
 import com.example.evoting.repository.ItemRepository;
@@ -21,7 +22,7 @@ public class ItemService {
 
     @Transactional
     public void insertItem(Item item) {
-        itemRepository.insertItem(item.getName());  // 執行存儲過程
+        itemRepository.insertItem(XSSSanitizer.sanitize(item.getName()));  // 執行存儲過程
     }
 
     @Transactional(readOnly = true)
@@ -31,7 +32,7 @@ public class ItemService {
     
     @Transactional 
 	public void updateItem(Long id, Item item) {
-		itemRepository.updateItem(id, item.getName());
+		itemRepository.updateItem(id, XSSSanitizer.sanitize(item.getName()));
 	}
 
     @Transactional 
